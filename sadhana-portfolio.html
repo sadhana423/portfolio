@@ -1,0 +1,630 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Sadhana — Web Developer</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600;9..144,700&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --ink:#141A1E;
+    --paper:#F6F3EC;
+    --paper-dim:#EEEADF;
+    --teal:#2E7F73;
+    --teal-deep:#1D5850;
+    --coral:#D9694E;
+    --line:#D8D2C2;
+    --white:#FFFFFF;
+    --mono: 'JetBrains Mono', monospace;
+    --serif: 'Fraunces', serif;
+    --sans: 'Inter', sans-serif;
+  }
+  *{margin:0;padding:0;box-sizing:border-box;}
+  html{scroll-behavior:smooth;}
+  body{
+    background:var(--paper);
+    color:var(--ink);
+    font-family:var(--sans);
+    line-height:1.5;
+    -webkit-font-smoothing:antialiased;
+  }
+  @media (prefers-reduced-motion: reduce){
+    html{scroll-behavior:auto;}
+    *{animation-duration:0.01ms !important; transition-duration:0.01ms !important;}
+  }
+
+  a{color:inherit;}
+  ::selection{background:var(--teal); color:var(--paper);}
+
+  .wrap{max-width:920px; margin:0 auto; padding:0 28px;}
+
+  /* ---------- Header / terminal bar ---------- */
+  .termbar{
+    background:var(--ink);
+    color:var(--paper);
+    font-family:var(--mono);
+    font-size:12.5px;
+    letter-spacing:0.02em;
+  }
+  .termbar .wrap{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    padding-top:12px;
+    padding-bottom:12px;
+    flex-wrap:wrap;
+    gap:8px;
+  }
+  .termbar .dots{display:flex; gap:6px;}
+  .termbar .dot{width:9px;height:9px;border-radius:50%;background:#4a5359;}
+  .termbar .dot.on{background:var(--coral);}
+  .termbar .path{opacity:0.75;}
+  .termbar .status{color:var(--teal); opacity:0.95;}
+
+  /* ---------- Hero ---------- */
+  .hero{
+    padding:88px 0 64px;
+    position:relative;
+    overflow:hidden;
+    border-bottom:1px solid var(--line);
+  }
+  .hero .eyebrow{
+    font-family:var(--mono);
+    font-size:12.5px;
+    color:var(--teal-deep);
+    letter-spacing:0.12em;
+    text-transform:uppercase;
+    margin-bottom:18px;
+    display:flex;
+    align-items:center;
+    gap:10px;
+    opacity:0;
+    animation:fadeUp 0.7s ease forwards;
+  }
+  .hero .eyebrow::before{
+    content:"";
+    width:26px;height:1px;background:var(--teal-deep);
+  }
+  .hero h1{
+    font-family:var(--serif);
+    font-weight:600;
+    font-size:clamp(52px, 11vw, 108px);
+    line-height:0.92;
+    letter-spacing:-0.01em;
+    opacity:0;
+    animation:fadeUp 0.8s ease 0.1s forwards;
+  }
+  .hero .role{
+    font-family:var(--serif);
+    font-style:italic;
+    font-weight:400;
+    font-size:clamp(20px, 3vw, 30px);
+    color:var(--teal-deep);
+    margin-top:6px;
+    opacity:0;
+    animation:fadeUp 0.8s ease 0.22s forwards;
+  }
+  .hero .profile{
+    max-width:560px;
+    margin-top:28px;
+    font-size:16.5px;
+    color:#3B4247;
+    opacity:0;
+    animation:fadeUp 0.8s ease 0.34s forwards;
+  }
+  .hero .contact-row{
+    margin-top:34px;
+    display:flex;
+    flex-wrap:wrap;
+    gap:10px;
+    opacity:0;
+    animation:fadeUp 0.8s ease 0.46s forwards;
+  }
+  .chip{
+    font-family:var(--mono);
+    font-size:12.5px;
+    border:1px solid var(--line);
+    background:var(--white);
+    padding:8px 14px;
+    border-radius:100px;
+    display:inline-flex;
+    align-items:center;
+    gap:7px;
+  }
+  .chip svg{width:13px;height:13px;flex:none;}
+
+  @keyframes fadeUp{
+    from{opacity:0; transform:translateY(14px);}
+    to{opacity:1; transform:translateY(0);}
+  }
+
+  /* decorative scan line ping in hero corner */
+  .radar{
+    position:absolute;
+    top:70px; right:-40px;
+    width:260px; height:260px;
+    opacity:0.5;
+    pointer-events:none;
+  }
+  @media (max-width:780px){ .radar{display:none;} }
+
+  /* ---------- Section shell ---------- */
+  section{padding:64px 0;}
+  section + section{border-top:1px solid var(--line);}
+  .section-head{
+    display:flex;
+    align-items:baseline;
+    justify-content:space-between;
+    margin-bottom:34px;
+    gap:16px;
+    flex-wrap:wrap;
+  }
+  .section-head h2{
+    font-family:var(--serif);
+    font-weight:600;
+    font-size:clamp(28px,4vw,38px);
+  }
+  .section-head .tag{
+    font-family:var(--mono);
+    font-size:12px;
+    color:var(--teal-deep);
+    background:var(--paper-dim);
+    border:1px solid var(--line);
+    padding:5px 10px;
+    border-radius:5px;
+    white-space:nowrap;
+  }
+
+  /* ---------- Skills / Strengths / Languages ---------- */
+  .grid-3{
+    display:grid;
+    grid-template-columns:1.3fr 1fr 1fr;
+    gap:28px;
+  }
+  @media (max-width:720px){ .grid-3{grid-template-columns:1fr;} }
+
+  .panel{
+    background:var(--white);
+    border:1px solid var(--line);
+    border-radius:10px;
+    padding:22px 22px 24px;
+  }
+  .panel h3{
+    font-family:var(--mono);
+    font-size:12px;
+    letter-spacing:0.1em;
+    text-transform:uppercase;
+    color:#6B7278;
+    margin-bottom:16px;
+  }
+  .taglist{display:flex; flex-wrap:wrap; gap:8px;}
+  .tag-pill{
+    font-family:var(--mono);
+    font-size:12.5px;
+    background:var(--paper-dim);
+    border:1px solid var(--line);
+    padding:6px 11px;
+    border-radius:6px;
+  }
+  .stack-list{list-style:none;}
+  .stack-list li{
+    font-size:14.5px;
+    padding:8px 0;
+    border-bottom:1px dashed var(--line);
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+  }
+  .stack-list li:last-child{border-bottom:none;}
+  .stack-list .bar{
+    width:70px; height:4px; background:var(--paper-dim); border-radius:3px; overflow:hidden; flex:none;
+  }
+  .stack-list .bar span{display:block; height:100%; background:var(--teal);}
+
+  /* ---------- Internships: scan-output cards ---------- */
+  .scan-card{
+    background:var(--ink);
+    color:var(--paper);
+    border-radius:10px;
+    padding:22px 24px 24px;
+    font-family:var(--mono);
+    margin-bottom:20px;
+    position:relative;
+  }
+  .scan-card:last-child{margin-bottom:0;}
+  .scan-head{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    flex-wrap:wrap;
+    gap:10px;
+    margin-bottom:6px;
+  }
+  .scan-status{
+    color:#7FE0C6;
+    font-size:12px;
+    letter-spacing:0.06em;
+    display:flex;
+    align-items:center;
+    gap:6px;
+  }
+  .scan-status::before{
+    content:"";
+    width:7px;height:7px;border-radius:50%;
+    background:#7FE0C6;
+    box-shadow:0 0 0 3px rgba(127,224,198,0.18);
+  }
+  .scan-year{color:#8A9298; font-size:12px;}
+  .scan-title{
+    font-family:var(--serif);
+    font-size:22px;
+    font-weight:600;
+    color:var(--paper);
+    margin-top:6px;
+    letter-spacing:-0.01em;
+  }
+  .scan-org{
+    font-size:13px;
+    color:#C7CDD1;
+    margin-top:2px;
+  }
+  .scan-meta{
+    font-size:11.5px;
+    color:#7E868C;
+    margin-top:2px;
+  }
+  .scan-body{
+    margin-top:16px;
+    border-top:1px solid #2A3238;
+    padding-top:14px;
+  }
+  .scan-body div{
+    font-size:13px;
+    color:#D6DADC;
+    padding:5px 0;
+    display:flex;
+    gap:10px;
+  }
+  .scan-body div::before{
+    content:"›";
+    color:var(--coral);
+    flex:none;
+  }
+
+  /* ---------- Projects ---------- */
+  .proj-grid{
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:24px;
+  }
+  @media (max-width:720px){ .proj-grid{grid-template-columns:1fr;} }
+  .proj-card{
+    border:1px solid var(--line);
+    border-radius:10px;
+    overflow:hidden;
+    background:var(--white);
+    display:flex;
+    flex-direction:column;
+  }
+  .proj-top{
+    padding:20px 22px 16px;
+    border-bottom:1px solid var(--line);
+  }
+  .proj-index{
+    font-family:var(--mono);
+    font-size:11px;
+    color:var(--coral);
+    letter-spacing:0.08em;
+  }
+  .proj-top h3{
+    font-family:var(--serif);
+    font-size:23px;
+    font-weight:600;
+    margin-top:6px;
+    line-height:1.15;
+  }
+  .proj-meta{
+    font-family:var(--mono);
+    font-size:11.5px;
+    color:#7B8288;
+    margin-top:8px;
+  }
+  .proj-body{
+    padding:16px 22px 22px;
+    flex:1;
+  }
+  .proj-body ul{list-style:none;}
+  .proj-body li{
+    font-size:14px;
+    color:#3B4247;
+    padding:6px 0 6px 18px;
+    position:relative;
+  }
+  .proj-body li::before{
+    content:"";
+    position:absolute; left:0; top:14px;
+    width:8px; height:1.5px;
+    background:var(--teal);
+  }
+  .proj-live{
+    font-family:var(--mono);
+    font-size:11.5px;
+    display:inline-block;
+    margin-top:6px;
+    color:var(--teal-deep);
+    border:1px solid var(--line);
+    border-radius:100px;
+    padding:4px 10px;
+    background:var(--paper-dim);
+  }
+
+  /* ---------- Education ---------- */
+  .edu-card{
+    border:1px solid var(--line);
+    background:var(--white);
+    border-radius:10px;
+    padding:26px 26px;
+    display:flex;
+    justify-content:space-between;
+    gap:20px;
+    flex-wrap:wrap;
+    align-items:center;
+  }
+  .edu-card h3{
+    font-family:var(--serif);
+    font-size:24px;
+    font-weight:600;
+  }
+  .edu-card p{
+    font-size:14px;
+    color:#3B4247;
+    margin-top:6px;
+  }
+  .edu-stat{
+    font-family:var(--mono);
+    text-align:right;
+  }
+  .edu-stat .num{
+    font-size:34px;
+    color:var(--teal-deep);
+    font-weight:600;
+  }
+  .edu-stat .label{
+    font-size:11px;
+    color:#7B8288;
+    letter-spacing:0.06em;
+    text-transform:uppercase;
+  }
+  .edu-years{
+    font-family:var(--mono);
+    font-size:12px;
+    color:var(--coral);
+    display:block;
+    margin-bottom:4px;
+  }
+
+  /* ---------- Footer ---------- */
+  footer{
+    padding:48px 0 60px;
+    text-align:center;
+  }
+  footer .callout{
+    font-family:var(--serif);
+    font-size:clamp(26px,4vw,38px);
+    font-weight:600;
+    margin-bottom:18px;
+  }
+  footer .btnrow{display:flex; gap:12px; justify-content:center; flex-wrap:wrap;}
+  .btn{
+    font-family:var(--mono);
+    font-size:13px;
+    padding:12px 22px;
+    border-radius:100px;
+    text-decoration:none;
+    display:inline-block;
+  }
+  .btn.primary{background:var(--ink); color:var(--paper);}
+  .btn.ghost{border:1px solid var(--line); color:var(--ink);}
+  footer .sig{
+    margin-top:34px;
+    font-family:var(--mono);
+    font-size:11.5px;
+    color:#9AA0A5;
+  }
+</style>
+</head>
+<body>
+
+  <div class="termbar">
+    <div class="wrap">
+      <div class="dots"><span class="dot on"></span><span class="dot"></span><span class="dot"></span></div>
+      <div class="path">sadhana@portfolio:~$ whoami</div>
+      <div class="status">● available for opportunities</div>
+    </div>
+  </div>
+
+  <header class="hero">
+    <div class="wrap">
+      <div class="eyebrow">Web Developer · Coimbatore region</div>
+      <h1>Sadhana</h1>
+      <div class="role">building on the front end, curious about the back door</div>
+      <p class="profile">Aspiring IT professional with a passion for creating impactful digital solutions and a commitment to continuous learning — seeking to leverage technical skill, problem-solving, and creativity toward organizational success while building a strong foundation in software and web development.</p>
+      <div class="contact-row">
+        <span class="chip">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.127.96.362 1.903.7 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.907.338 1.85.573 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
+          6374195828
+        </span>
+        <span class="chip">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 4h16v16H4z" opacity="0"/><path d="M22 6l-10 7L2 6"/><path d="M2 6h20v12H2z"/></svg>
+          chandrasekarsadhana331@gmail.com
+        </span>
+        <span class="chip">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
+          Palladam, Tirupur
+        </span>
+      </div>
+    </div>
+    <svg class="radar" viewBox="0 0 260 260" fill="none">
+      <circle cx="130" cy="130" r="120" stroke="#2E7F73" stroke-opacity="0.18"/>
+      <circle cx="130" cy="130" r="80" stroke="#2E7F73" stroke-opacity="0.22"/>
+      <circle cx="130" cy="130" r="40" stroke="#2E7F73" stroke-opacity="0.28"/>
+      <circle cx="130" cy="130" r="3" fill="#D9694E"/>
+    </svg>
+  </header>
+
+  <section id="skills">
+    <div class="wrap">
+      <div class="section-head">
+        <h2>Toolkit</h2>
+        <span class="tag">skills · languages · strengths</span>
+      </div>
+      <div class="grid-3">
+        <div class="panel">
+          <h3>Technical Skills</h3>
+          <ul class="stack-list">
+            <li>Java programming <span class="bar"><span style="width:78%"></span></span></li>
+            <li>HTML <span class="bar"><span style="width:90%"></span></span></li>
+            <li>CSS <span class="bar"><span style="width:88%"></span></span></li>
+            <li>C <span class="bar"><span style="width:70%"></span></span></li>
+            <li>JavaScript (Basics) <span class="bar"><span style="width:55%"></span></span></li>
+            <li>MS Office <span class="bar"><span style="width:85%"></span></span></li>
+          </ul>
+        </div>
+        <div class="panel">
+          <h3>Languages</h3>
+          <div class="taglist">
+            <span class="tag-pill">English</span>
+            <span class="tag-pill">Tamil</span>
+          </div>
+        </div>
+        <div class="panel">
+          <h3>Strengths</h3>
+          <div class="taglist">
+            <span class="tag-pill">Quick Learner</span>
+            <span class="tag-pill">Team Worker</span>
+            <span class="tag-pill">Adaptability</span>
+            <span class="tag-pill">Time Management</span>
+            <span class="tag-pill">Positive Attitude</span>
+            <span class="tag-pill">Self Motivated</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="internships">
+    <div class="wrap">
+      <div class="section-head">
+        <h2>Internships</h2>
+        <span class="tag">nmap -sV --scan-experience</span>
+      </div>
+
+      <div class="scan-card">
+        <div class="scan-head">
+          <span class="scan-status">OPEN · cybersecurity</span>
+          <span class="scan-year">2026</span>
+        </div>
+        <div class="scan-title">Cybersecurity Internship</div>
+        <div class="scan-org">Hackup Technology Pvt. Ltd</div>
+        <div class="scan-meta">Dec 2025 – Jan 2026</div>
+        <div class="scan-body">
+          <div>Used Kali Linux for cybersecurity tasks and vulnerability assessment.</div>
+          <div>Scanned networks and checked open ports using Nmap.</div>
+          <div>Built a web-based port scanner using Python and Flask.</div>
+          <div>Learned ethical hacking and cybersecurity fundamentals.</div>
+        </div>
+      </div>
+
+      <div class="scan-card">
+        <div class="scan-head">
+          <span class="scan-status">OPEN · full-stack</span>
+          <span class="scan-year">2026</span>
+        </div>
+        <div class="scan-title">MERN Stack Internship</div>
+        <div class="scan-org">App Innovation Technology</div>
+        <div class="scan-meta">In progress</div>
+        <div class="scan-body">
+          <div>Learning HTML, CSS, JavaScript, React.js, Node.js, Express.js, and MongoDB.</div>
+          <div>Gaining hands-on experience in front-end and back-end development.</div>
+          <div>Developing a web-based project as part of the internship.</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="projects">
+    <div class="wrap">
+      <div class="section-head">
+        <h2>Projects</h2>
+        <span class="tag">built &amp; shipped</span>
+      </div>
+      <div class="proj-grid">
+        <div class="proj-card">
+          <div class="proj-top">
+            <div class="proj-index">01 / PERSONAL PROJECT</div>
+            <h3>Habit Tracker Web App</h3>
+            <div class="proj-meta">HTML · CSS · 2025</div>
+          </div>
+          <div class="proj-body">
+            <ul>
+              <li>Built a fully functional habit tracker web application.</li>
+              <li>Designed an interactive UI for tracking daily habits and tasks.</li>
+              <li>Deployed the project on Vercel.</li>
+            </ul>
+            <span class="proj-live">↗ live on Vercel</span>
+          </div>
+        </div>
+        <div class="proj-card">
+          <div class="proj-top">
+            <div class="proj-index">02 / WEB PORTAL</div>
+            <h3>EduSphere</h3>
+            <div class="proj-meta">Academic &amp; Career Development Portal</div>
+          </div>
+          <div class="proj-body">
+            <ul>
+              <li>Designed a student-focused web portal.</li>
+              <li>Developed responsive web pages using HTML and CSS.</li>
+              <li>Planned CRUD functionality for managing academic and career resources.</li>
+              <li>Focused on user-friendly navigation and modern interface design.</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="education">
+    <div class="wrap">
+      <div class="section-head">
+        <h2>Education</h2>
+        <span class="tag">2024 – 2027</span>
+      </div>
+      <div class="edu-card">
+        <div>
+          <span class="edu-years">2024 – 2027</span>
+          <h3>KPR College of Arts, Science and Research</h3>
+          <p>School of Computer Science · Bharathiyar University</p>
+        </div>
+        <div class="edu-stat">
+          <div class="num">8.0</div>
+          <div class="label">CGPA</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <footer>
+    <div class="wrap">
+      <div class="callout">Let's build something.</div>
+      <div class="btnrow">
+        <a class="btn primary" href="mailto:chandrasekarsadhana331@gmail.com">Email Sadhana</a>
+        <a class="btn ghost" href="tel:6374195828">Call 6374195828</a>
+      </div>
+      <div class="sig">Palladam, Tirupur · scan complete, 6 ports of skill found open</div>
+    </div>
+  </footer>
+
+</body>
+</html>
